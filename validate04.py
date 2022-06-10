@@ -12,14 +12,14 @@ def isalnum_(pandas_obj):
 def check_prefix(pandas_obj, *, prefix:str):
     return pandas_obj.startswith(prefix)
 
-df_data01 = pd.read_excel("data01.xlsx", index_col=0)
-df_data02 = pd.read_excel("data02.xlsx", index_col=0)
-
 @extensions.register_check_method(statistics=["find_df"], check_type="element_wise")
 def IDがあるか(pandas_obj, *, find_df:pd.DataFrame):
     return not find_df.query(f'id == ["{pandas_obj}"]').empty
 # def value04_validate(find_id: str, find_df:pd.DataFrame) -> (pd.Series | bool):
 #     return not find_df.query(f'id == ["{find_id}"]').empty
+
+df_data01 = pd.read_excel("data/data01.xlsx", sheet_name="data", index_col=0)
+df_data02 = pd.read_excel("data/data02.xlsx", index_col=0)
 
 data01_schema = pa.DataFrameSchema(
     index = pa.Index(

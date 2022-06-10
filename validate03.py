@@ -1,8 +1,8 @@
 import pandas as pd
 import pandera as pa
 
-df_data01 = pd.read_excel("data01.xlsx", index_col=0)
-df_data02 = pd.read_excel("data02.xlsx", index_col=0)
+df_data01 = pd.read_excel("data/data01.xlsx", index_col=0)
+df_data02 = pd.read_excel("data/data02.xlsx", index_col=0)
 
 def value04_validate(values: pd.Series, find_df:pd.DataFrame) -> (pd.Series | bool):
     return values.apply(lambda id: not find_df.query(f'id == ["{id}"]').empty)
