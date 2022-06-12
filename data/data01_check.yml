@@ -1,0 +1,27 @@
+index:
+  type: str
+  unique: true
+  checks:
+    - "startswith,A0"
+    - "isalnum_"
+
+columns:
+  value01:
+    type: int
+    checks:
+      - ">0"
+
+  value02:
+    type: int
+    checks:
+      - ">0"
+
+  value03:
+    type: int
+    checks:
+      - ">0"
+
+  value04:
+    type: str
+    checks:
+      - "ref,data02,id"
