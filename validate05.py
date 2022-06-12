@@ -15,13 +15,13 @@ def isalnum_(pandas_obj):
 
 
 # 文字列のプレフィックスが指定文字列と一致するか
-@extensions.register_check_method(statistics=["prefix"], check_type="element_wise")
+@extensions.register_check_method(check_type="element_wise")
 def check_prefix(pandas_obj, *, prefix: str):
     return pandas_obj.startswith(prefix)
 
 
 # 指定要素が特定のデータフレームのデータに存在するか
-@extensions.register_check_method(statistics=["find_df"], check_type="element_wise")
+@extensions.register_check_method(check_type="element_wise")
 def IDがあるか(pandas_obj, *, find_df: pd.DataFrame, column_name: str):
     return not find_df.query(f'{column_name} == ["{pandas_obj}"]').empty
 
@@ -42,7 +42,7 @@ def create_check(param_str: str) -> pa.Check | None:
         case "ref":
             return pa.Check.IDがあるか(find_df=ref_data[params[1]], column_name=params[2])
         case "startswith":
-            return pa.Check.check_prefix(params[1])
+            return pa.Check.check_prefix(prefix=params[1])
         case "isalnum_":
             return pa.Check.isalnum_()
         case _:
