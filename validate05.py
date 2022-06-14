@@ -8,26 +8,27 @@ from pydoc import locate
 
 alnum_regex = re.compile(r"^[a-zA-Z0-9_]+$")
 
-# 文字列が英数字アンダースコアのみで構成されているか
+
 @extensions.register_check_method(check_type="element_wise")
 def isalnum_(pandas_obj):
+    """文字列が英数字アンダースコアのみで構成されているか"""
     return alnum_regex.match(pandas_obj) is not None
 
 
-# 文字列のプレフィックスが指定文字列と一致するか
 @extensions.register_check_method(check_type="element_wise")
 def check_prefix(pandas_obj, *, prefix: str):
+    """文字列のプレフィックスが指定文字列と一致するか"""
     return pandas_obj.startswith(prefix)
 
 
-# 指定要素が特定のデータフレームのデータに存在するか
 @extensions.register_check_method(check_type="element_wise")
 def IDがあるか(pandas_obj, *, find_df: pd.DataFrame, column_name: str):
+    """指定要素が特定のデータフレームのデータに存在するか"""
     return not find_df.query(f'{column_name} == ["{pandas_obj}"]').empty
 
 
-# 文字列からCheck処理を生成
 def create_check(param_str: str) -> pa.Check | None:
+    """文字列からCheck処理を生成"""
     if param_str.startswith(">="):
         return pa.Check.ge(int(param_str[2:]))
     if param_str.startswith(">"):
@@ -49,16 +50,16 @@ def create_check(param_str: str) -> pa.Check | None:
             return None
 
 
-# 文字列配列からChecksへ渡す配列を生成
 def create_check_list(param_str_list: list[str]) -> list[pa.Check]:
+    """文字列配列からChecksへ渡す配列を生成"""
     ret_checks = []
     for param_str in param_str_list:
         ret_checks.append(create_check(param_str))
     return ret_checks
 
 
-# IndexのCheck設定を生成
 def create_index_checks(data: Dict[str, Any]) -> pa.Index:
+    """IndexのCheck設定を生成"""
     return pa.Index(
         dtype=locate(data["type"]),  # 文字列から型に変換
         checks=create_check_list(data["checks"]),
@@ -66,8 +67,8 @@ def create_index_checks(data: Dict[str, Any]) -> pa.Index:
     )
 
 
-# ColumnのCheck設定を生成
 def create_column_checks(data: Dict[str, Any]) -> Dict[str, pa.Column]:
+    """ColumnのCheck設定を生成"""
     columns = {}
     for name, column in data.items():
         columns[name] = pa.Column(
