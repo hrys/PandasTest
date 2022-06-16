@@ -1,10 +1,11 @@
 import re
+from pydoc import locate
 from typing import Any, Dict
+
 import pandas as pd
 import pandera as pa
 import pandera.extensions as extensions
 import yaml
-from pydoc import locate
 
 alnum_regex = re.compile(r"^[a-zA-Z0-9_]+$")
 
